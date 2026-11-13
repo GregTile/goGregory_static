@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>goGregory.com — Gregory</title>
+    <meta
+      name="description"
+      content="goGregory.com — Gregory // AI & Intelligent Systems."
+    />
+    <meta name="theme-color" content="#03070e" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="goGregory.com" />
+    <meta property="og:description" content="Gregory // AI & Intelligent Systems" />
+    <meta property="og:url" content="https://gogregory.com" />
+    <meta property="og:type" content="website" />
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+    <!-- Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body data-mode="latent">
+    <!-- ====================================================================
+         EXPERIENCE 1: Liquid Latent Space (WebGL Fragment Shader)
+         ==================================================================== -->
+    <section class="scene scene--latent" aria-label="Liquid Latent Space">
+      <canvas id="latent-canvas" class="scene-canvas"></canvas>
+
+      <div class="latent-overlay">
+        <div id="latent-hero" class="latent-hero">
+          <h1 class="brand-wordmark">
+            <span data-brand-primary>go</span><span class="brand-accent" data-brand-accent>Gregory</span><span class="brand-suffix" data-brand-suffix>.com</span>
+          </h1>
+          <div class="latent-divider" aria-hidden="true">
+            <span class="pulse-orb"></span>
+          </div>
+          <p class="brand-tagline" data-tagline>GREGORY // AI &amp; INTELLIGENT SYSTEMS</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         EXPERIENCE 2: Autonomous AI Telemetry HUD
+         ==================================================================== -->
+    <section class="scene scene--hud" aria-label="Autonomous AI Telemetry HUD">
+      <canvas id="hud-canvas" class="scene-canvas"></canvas>
+
+      <div class="hud-overlay">
+        <div class="hud-frame-corner hud-frame-corner--tl"></div>
+        <div class="hud-frame-corner hud-frame-corner--tr"></div>
+        <div class="hud-frame-corner hud-frame-corner--bl"></div>
+        <div class="hud-frame-corner hud-frame-corner--br"></div>
+
+        <!-- Top-Left System Telemetry -->
+        <div class="hud-panel hud-panel--tl">
+          <div class="hud-label">SYS // GOGREGORY.NODE</div>
+          <div class="hud-kv-row">
+            <span>CLOCK</span>
+            <strong id="hud-clock-utc">--:--:--.-- UTC</strong>
+          </div>
+          <div class="hud-kv-row">
+            <span>CHROMA</span>
+            <strong id="hud-palette-name">NEURAL CYAN</strong>
+          </div>
+          <div class="hud-kv-row">
+            <span>RENDER</span>
+            <strong id="hud-fps">60 FPS</strong>
+          </div>
+        </div>
+
+        <!-- Top-Right Harmonic Waveforms & Vector Metrics -->
+        <div class="hud-panel hud-panel--tr">
+          <div class="hud-label">HARMONIC TELEMETRY</div>
+          <div class="hud-wave-box">
+            <canvas id="hud-wave-canvas"></canvas>
+          </div>
+          <div class="hud-metrics-inline">
+            <span id="hud-coords">VEC [0.000, 0.000]</span>
+            <span>COHERENCE <strong id="hud-coherence">99.60%</strong></span>
+            <span>ENTROPY <strong id="hud-entropy">0.042</strong></span>
+          </div>
+        </div>
+
+        <!-- Center Core Identity -->
+        <div class="hud-center-core">
+          <div class="hud-core-badge">AUTONOMOUS CORE</div>
+          <div class="hud-core-title">
+            <span class="brand-primary" data-brand-primary>go</span><span data-brand-accent>Gregory</span><span class="brand-suffix" data-brand-suffix>.com</span>
+          </div>
+          <div class="hud-core-tagline" data-tagline>
+            GREGORY // AI &amp; INTELLIGENT SYSTEMS
+          </div>
+        </div>
+
+        <!-- Bottom-Left Live Latent Stream -->
+        <div class="hud-panel hud-panel--bl">
+          <div class="hud-label">LATENT STREAM // LIVE</div>
+          <div id="hud-stream-log" class="hud-stream-log" aria-live="polite"></div>
+        </div>
+
+        <!-- Bottom-Right Interactive Easter-Egg Terminal -->
+        <div class="hud-panel hud-panel--br">
+          <div class="hud-terminal">
+            <form id="hud-terminal-form" class="hud-terminal-form" autocomplete="off">
+              <label for="hud-terminal-input" class="hud-prompt-prefix">gregory@node:~$</label>
+              <input
+                id="hud-terminal-input"
+                class="hud-terminal-input"
+                type="text"
+                spellcheck="false"
+                maxlength="48"
+                placeholder="type 'help' or press /"
+              />
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         FLOATING CONTROL DOCK (Auto-hides into screensaver mode when idle)
+         ==================================================================== -->
+    <div class="control-dock-wrapper">
+      <div id="dock-status-label" class="dock-status-label" aria-live="polite"></div>
+
+      <nav class="control-dock" aria-label="Experience and palette controls">
+        <div class="mode-switch" role="group" aria-label="Visual mode">
+          <button
+            type="button"
+            class="mode-btn is-active"
+            data-mode-btn="latent"
+            aria-pressed="true"
+            title="Liquid Latent Space (Shortcut: M)"
+          >
+            Latent
+          </button>
+          <button
+            type="button"
+            class="mode-btn"
+            data-mode-btn="hud"
+            aria-pressed="false"
+            title="Autonomous Telemetry HUD (Shortcut: M)"
+          >
+            Telemetry
+          </button>
+        </div>
+
+        <span class="dock-divider" aria-hidden="true"></span>
+
+        <div
+          id="palette-dots"
+          class="palette-dots"
+          role="group"
+          aria-label="Color palettes (Shortcut: Space or 1-5)"
+        ></div>
+
+        <span class="dock-divider" aria-hidden="true"></span>
+
+        <button
+          id="fullscreen-btn"
+          type="button"
+          class="icon-btn"
+          aria-label="Toggle fullscreen screensaver (Shortcut: F)"
+          title="Fullscreen Screensaver (F)"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4"
+            />
+          </svg>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Scripts -->
+    <script src="config.js"></script>
+    <script src="latent.js"></script>
+    <script src="hud.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

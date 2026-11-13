@@ -1,0 +1,720 @@
+/* ==========================================================================
+   goGregory.com — Stylesheet
+   Dual-Mode Static Experience: Liquid Latent Space & Autonomous Telemetry HUD
+   ========================================================================== */
+
+:root {
+  --bg: #03070e;
+  --primary: #00e5ff;
+  --primary-rgb: 0, 229, 255;
+  --secondary: #3a56e8;
+  --secondary-rgb: 58, 86, 232;
+  --tertiary: #0b2545;
+  --highlight: #c8fbff;
+
+  --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg);
+  color: #f4f7fb;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+}
+
+/* Hide cursor subtly only if desired? Keep cursor visible on wake, subtle in idle */
+body.is-idle {
+  cursor: none;
+}
+
+/* ==========================================================================
+   Scene Layering & Smooth Crossfade
+   ========================================================================== */
+
+.scene {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(1.015);
+  transition:
+    opacity 0.8s var(--ease-out-expo),
+    transform 0.9s var(--ease-out-expo),
+    visibility 0.8s;
+}
+
+body[data-mode='latent'] .scene--latent,
+body[data-mode='hud'] .scene--hud {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+.scene-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ==========================================================================
+   Mode 1: Liquid Latent Space Hero Typography
+   ========================================================================== */
+
+.latent-overlay {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  padding: 2rem;
+}
+
+.latent-hero {
+  text-align: center;
+  transition:
+    transform 0.25s ease-out,
+    opacity 1.2s ease;
+  will-change: transform;
+}
+
+body.is-idle .latent-hero {
+  opacity: 0.78;
+}
+
+.brand-wordmark {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 6.5vw, 5.6rem);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.65),
+    0 0 60px rgba(var(--primary-rgb), 0.22);
+}
+
+.brand-wordmark .brand-accent {
+  font-weight: 600;
+  background: linear-gradient(135deg, #ffffff 15%, var(--highlight) 55%, var(--primary) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: filter 0.5s ease;
+}
+
+.brand-wordmark .brand-suffix {
+  font-family: var(--font-mono);
+  font-size: 0.34em;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.45);
+  margin-left: 0.14em;
+  vertical-align: baseline;
+}
+
+.latent-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 1.25rem auto 1.05rem;
+  width: min(260px, 65vw);
+}
+
+.latent-divider::before,
+.latent-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(var(--primary-rgb), 0.45),
+    transparent
+  );
+}
+
+.pulse-orb {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  box-shadow: 0 0 12px var(--primary);
+  animation: orbBreathe 3.2s ease-in-out infinite;
+}
+
+@keyframes orbBreathe {
+  0%,
+  100% {
+    transform: scale(0.85);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 1;
+  }
+}
+
+.brand-tagline {
+  font-family: var(--font-mono);
+  font-size: clamp(0.64rem, 1.1vw, 0.76rem);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.64);
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.8);
+}
+
+/* ==========================================================================
+   Mode 2: Autonomous AI Telemetry HUD
+   ========================================================================== */
+
+.hud-overlay {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  font-family: var(--font-mono);
+}
+
+/* Subtle scanline atmosphere */
+.hud-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0) 0px,
+    rgba(255, 255, 255, 0) 3px,
+    rgba(0, 0, 0, 0.14) 4px
+  );
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+/* Precision framing corner brackets */
+.hud-frame-corner {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-color: rgba(var(--primary-rgb), 0.38);
+  border-style: solid;
+  transition: border-color 0.5s ease;
+}
+
+.hud-frame-corner--tl {
+  top: 20px;
+  left: 20px;
+  border-width: 1.5px 0 0 1.5px;
+}
+.hud-frame-corner--tr {
+  top: 20px;
+  right: 20px;
+  border-width: 1.5px 1.5px 0 0;
+}
+.hud-frame-corner--bl {
+  bottom: 20px;
+  left: 20px;
+  border-width: 0 0 1.5px 1.5px;
+}
+.hud-frame-corner--br {
+  bottom: 20px;
+  right: 20px;
+  border-width: 0 1.5px 1.5px 0;
+}
+
+/* Center Core Emblem inside Astrolabe */
+.hud-center-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+}
+
+.hud-core-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.24em;
+  color: var(--primary);
+  text-transform: uppercase;
+  margin-bottom: 0.45rem;
+  opacity: 0.85;
+}
+
+.hud-core-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 0 10px var(--primary);
+  animation: orbBreathe 2.2s infinite;
+}
+
+.hud-core-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.85rem, 3.6vw, 2.9rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  text-shadow: 0 0 28px rgba(var(--primary-rgb), 0.35);
+}
+
+.hud-core-title .brand-primary {
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.hud-core-title .brand-suffix {
+  font-family: var(--font-mono);
+  font-size: 0.38em;
+  color: rgba(var(--primary-rgb), 0.7);
+  margin-left: 0.12em;
+}
+
+.hud-core-tagline {
+  margin-top: 0.5rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  color: rgba(255, 255, 255, 0.52);
+  text-transform: uppercase;
+}
+
+/* Telemetry Corner Panels */
+.hud-panel {
+  position: absolute;
+  z-index: 3;
+  font-size: 0.68rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.72);
+  letter-spacing: 0.06em;
+}
+
+.hud-panel--tl {
+  top: 34px;
+  left: 36px;
+}
+
+.hud-panel--tr {
+  top: 34px;
+  right: 36px;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.hud-panel--bl {
+  bottom: 92px;
+  left: 36px;
+  width: min(460px, 46vw);
+}
+
+.hud-panel--br {
+  bottom: 92px;
+  right: 36px;
+  width: min(360px, 42vw);
+  pointer-events: auto;
+}
+
+.hud-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--primary);
+  opacity: 0.85;
+  margin-bottom: 0.25rem;
+}
+
+.hud-kv-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: baseline;
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 0.66rem;
+}
+
+.hud-kv-row strong {
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.hud-wave-box {
+  width: 220px;
+  height: 58px;
+  border: 1px solid rgba(var(--primary-rgb), 0.2);
+  background: rgba(5, 10, 18, 0.45);
+  border-radius: 4px;
+  margin: 0.35rem 0 0.45rem;
+  overflow: hidden;
+}
+
+.hud-wave-box canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.hud-metrics-inline {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.64rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.hud-metrics-inline span strong {
+  color: var(--highlight);
+  font-weight: 500;
+}
+
+/* Autonomous Stream Log */
+.hud-stream-log {
+  display: flex;
+  flex-direction: column;
+  gap: 0.22rem;
+  max-height: 158px;
+  overflow: hidden;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 28%, black 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 28%, black 100%);
+}
+
+.log-entry {
+  font-size: 0.65rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.log-entry.is-accent {
+  color: var(--highlight);
+}
+
+.log-ts {
+  color: rgba(255, 255, 255, 0.34);
+}
+
+.log-tag {
+  color: var(--primary);
+  font-weight: 500;
+}
+
+/* Interactive Command Prompt */
+.hud-terminal {
+  background: rgba(6, 10, 18, 0.62);
+  border: 1px solid rgba(var(--primary-rgb), 0.25);
+  border-radius: 8px;
+  padding: 0.55rem 0.75rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    opacity 0.6s ease;
+}
+
+.hud-terminal:focus-within {
+  border-color: rgba(var(--primary-rgb), 0.68);
+  box-shadow: 0 0 24px rgba(var(--primary-rgb), 0.16);
+}
+
+body.is-idle .hud-terminal {
+  opacity: 0.25;
+}
+
+.hud-terminal-form {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.hud-prompt-prefix {
+  color: var(--primary);
+  font-size: 0.68rem;
+  white-space: nowrap;
+}
+
+.hud-terminal-input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.03em;
+  caret-color: var(--primary);
+}
+
+.hud-terminal-input::placeholder {
+  color: rgba(255, 255, 255, 0.28);
+}
+
+/* ==========================================================================
+   Floating Control Dock (Mode Switcher + Palette Switcher + Fullscreen)
+   ========================================================================== */
+
+.control-dock-wrapper {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  transition:
+    opacity 0.65s ease,
+    transform 0.65s var(--ease-out-expo);
+}
+
+body.is-idle .control-dock-wrapper {
+  opacity: 0;
+  transform: translateX(-50%) translateY(10px);
+  pointer-events: none;
+}
+
+.dock-status-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--highlight);
+  background: rgba(8, 12, 20, 0.72);
+  border: 1px solid rgba(var(--primary-rgb), 0.25);
+  padding: 0.24rem 0.65rem;
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+  pointer-events: none;
+}
+
+.dock-status-label.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.control-dock {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.38rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(8, 11, 18, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  box-shadow:
+    0 12px 36px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(var(--primary-rgb), 0.08) inset;
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+}
+
+/* Mode Segmented Pill */
+.mode-switch {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.18rem;
+  border-radius: 999px;
+}
+
+.mode-btn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.56);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.36rem 0.78rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    color 0.25s ease,
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.mode-btn:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.mode-btn.is-active {
+  color: #ffffff;
+  background: rgba(var(--primary-rgb), 0.18);
+  box-shadow: 0 0 0 1px rgba(var(--primary-rgb), 0.42) inset;
+}
+
+.dock-divider {
+  width: 1px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Palette Dots */
+.palette-dots {
+  display: flex;
+  align-items: center;
+  gap: 0.42rem;
+  padding: 0 0.2rem;
+}
+
+.palette-dot {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: linear-gradient(135deg, var(--dot-primary), var(--dot-secondary));
+  cursor: pointer;
+  position: relative;
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease;
+}
+
+.palette-dot:hover {
+  transform: scale(1.2);
+  border-color: #ffffff;
+}
+
+.palette-dot.is-active {
+  transform: scale(1.18);
+  border-color: #ffffff;
+  box-shadow:
+    0 0 0 2px rgba(8, 11, 18, 0.9),
+    0 0 0 3.5px var(--dot-primary),
+    0 0 12px var(--dot-primary);
+}
+
+/* Icon Action Button (Fullscreen) */
+.icon-btn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.58);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.icon-btn:hover,
+.icon-btn.is-active {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.icon-btn svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  fill: none;
+}
+
+/* ==========================================================================
+   Responsive Adjustments
+   ========================================================================== */
+
+@media (max-width: 860px) {
+  .hud-panel--bl {
+    width: min(320px, 52vw);
+    bottom: 88px;
+    left: 22px;
+  }
+
+  .hud-panel--br {
+    width: min(260px, 42vw);
+    bottom: 88px;
+    right: 22px;
+  }
+
+  .hud-panel--tl {
+    top: 24px;
+    left: 22px;
+  }
+
+  .hud-panel--tr {
+    top: 24px;
+    right: 22px;
+  }
+
+  .hud-wave-box {
+    width: 165px;
+    height: 46px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hud-panel--tr .hud-metrics-inline,
+  .hud-panel--br {
+    display: none;
+  }
+
+  .hud-panel--bl {
+    width: calc(100vw - 44px);
+    bottom: 86px;
+  }
+
+  .hud-wave-box {
+    width: 120px;
+    height: 38px;
+  }
+
+  .control-dock {
+    gap: 0.45rem;
+    padding: 0.34rem 0.46rem;
+  }
+
+  .mode-btn {
+    padding: 0.34rem 0.58rem;
+    font-size: 0.61rem;
+  }
+}
